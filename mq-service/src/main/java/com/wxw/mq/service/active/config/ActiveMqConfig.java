@@ -21,19 +21,16 @@ public class ActiveMqConfig {
     private static final String BROKER_URL = "failover:(tcp://127.0.0.1:61616)";
 
     public static final String QUEUE_TEST = "active.queue.test";
-    public static final Destination DESTINATION_QUEUE = new ActiveMQQueue(QUEUE_TEST);
-
     public static final String TOPIC_TEST = "active.topic.test";
-    public static final Destination DESTINATION_TOPIC = new ActiveMQTopic(TOPIC_TEST);
 
-    @Bean
+    @Bean("testQueue")
     public Queue queue() {
-        return new ActiveMQQueue();
+        return new ActiveMQQueue(QUEUE_TEST);
     }
 
-    @Bean
+    @Bean("testTopic")
     public Topic topic() {
-        return new ActiveMQTopic();
+        return new ActiveMQTopic(TOPIC_TEST);
     }
 
     @Bean

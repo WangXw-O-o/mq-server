@@ -16,21 +16,22 @@ public class ActiveMqServiceImpl implements ActiveMqService {
 
     @Resource
     private JmsMessagingTemplate jmsMessagingTemplate;
-
-    private final Destination DESTINATION_QUEUE = ActiveMqConfig.DESTINATION_QUEUE;
-    private final Destination DESTINATION_TOPIC = ActiveMqConfig.DESTINATION_TOPIC;
+    @Resource(name = "testTopic")
+    private Destination destinationTopic;
+    @Resource(name = "testQueue")
+    private Destination destinationQueue;
 
     @Override
     public boolean sendStringMessageToQueue(String message) {
-        log.info("发送消息 ==> {}, message={}", DESTINATION_QUEUE, message);
-        jmsMessagingTemplate.convertAndSend(DESTINATION_QUEUE, message);
+        log.info("发送消息, message={}", message);
+        jmsMessagingTemplate.convertAndSend(destinationQueue, message);
         return true;
     }
 
     @Override
     public boolean sendStringMessageToTopic(String message) {
-        log.info("发送消息 ==> {}, message={}", DESTINATION_TOPIC, message);
-        jmsMessagingTemplate.convertAndSend(DESTINATION_TOPIC, message);
+        log.info("发送消息, message={}", message);
+        jmsMessagingTemplate.convertAndSend(destinationTopic, message);
         return true;
     }
 
@@ -38,7 +39,7 @@ public class ActiveMqServiceImpl implements ActiveMqService {
     public String consumerStringMessage() {
         try {
             //队列没有消息则阻塞
-            Message<?> receive = jmsMessagingTemplate.receive(DESTINATION_QUEUE);
+            Message<?> receive = jmsMessagingTemplate.receive(destinationQueue);
             if (receive != null) {
                 String message = (String) receive.getPayload();
                 log.info("消费消息： message={}", message);
