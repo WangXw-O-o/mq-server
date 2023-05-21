@@ -3,13 +3,15 @@ package com.wxw.mq.web.controller;
 import com.wxw.mq.service.active.ActiveMqService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.UUID;
 
 @RestController
-public class MqController {
+@RequestMapping("/active/mq")
+public class ActiveMqController {
 
     @Resource
     private ActiveMqService activeMqService;
@@ -20,19 +22,19 @@ public class MqController {
         return "H E L L O ===> " + UUID.randomUUID();
     }
 
-    @GetMapping("/rabbit/mq/send/queue/{message}")
+    @GetMapping("/send/queue/{message}")
     public String sendToQueue(@PathVariable("message") String message) {
         boolean result = activeMqService.sendStringMessageToQueue(message);
         return "消息发送Queue结果：" + (result ? "成功！" : "失败！");
     }
 
-    @GetMapping("/rabbit/mq/send/topic/{message}")
-    public String test(@PathVariable("message") String message) {
+    @GetMapping("/send/topic/{message}")
+    public String sendToTopic(@PathVariable("message") String message) {
         boolean result = activeMqService.sendStringMessageToTopic(message);
         return "消息发送Topic结果：" + (result ? "成功！" : "失败！");
     }
 
-    @GetMapping("/rabbit/mq/consumer")
+    @GetMapping("/consumer")
     public String consumer() {
         String result = activeMqService.consumerStringMessage();
         return "队列数据：" + result;
