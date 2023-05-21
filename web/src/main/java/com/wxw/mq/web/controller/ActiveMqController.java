@@ -22,6 +22,16 @@ public class ActiveMqController {
         return "H E L L O ===> " + UUID.randomUUID();
     }
 
+    @GetMapping("/send/queue/jms/{message}")
+    public String sendToQueueByJMS(@PathVariable("message") String message) {
+        String queue = "test.queue.jms";
+        //发送消息
+        activeMqService.sendByJMS(message, queue);
+        //接收消息
+        String result = activeMqService.consumerByJMS(queue);
+        return "queue:["+queue+"] message：" + result;
+    }
+
     @GetMapping("/send/queue/{message}")
     public String sendToQueue(@PathVariable("message") String message) {
         boolean result = activeMqService.sendStringMessageToQueue(message);

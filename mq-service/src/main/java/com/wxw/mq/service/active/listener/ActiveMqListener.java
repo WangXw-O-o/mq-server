@@ -14,9 +14,19 @@ import javax.jms.Session;
 public class ActiveMqListener {
 
     @JmsListener(destination = ActiveMqConfig.QUEUE_TEST, containerFactory = "jmsListenerQueue")
-    public void queueListener(ActiveMQMessage message, Session session, String msg) throws JMSException {
+    public void queueListener1(ActiveMQMessage message, Session session, String msg) throws JMSException {
         try {
-            log.info("QueueListener 收到消息：{}", msg);
+            log.info("QueueListener 1 收到消息：{}", msg);
+            message.acknowledge();
+        } catch (Exception e) {
+            session.recover();
+        }
+    }
+
+    @JmsListener(destination = ActiveMqConfig.QUEUE_TEST, containerFactory = "jmsListenerQueue")
+    public void queueListener2(ActiveMQMessage message, Session session, String msg) throws JMSException {
+        try {
+            log.info("QueueListener 2 收到消息：{}", msg);
             message.acknowledge();
         } catch (Exception e) {
             session.recover();

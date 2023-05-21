@@ -33,6 +33,10 @@ public class ActiveMqConfig {
         return new ActiveMQTopic(TOPIC_TEST);
     }
 
+    /**
+     * 连接工厂
+     * @return
+     */
     @Bean
     public ActiveMQConnectionFactory activeMQConnectionFactory() {
         ActiveMQConnectionFactory factory = new ActiveMQConnectionFactory();
@@ -42,13 +46,17 @@ public class ActiveMqConfig {
         return factory;
     }
 
+    /**
+     * 监听器容器——Queue
+     * @param connectionFactory
+     * @return
+     */
     @Bean
     public JmsListenerContainerFactory<?> jmsListenerQueue(ActiveMQConnectionFactory connectionFactory) {
         DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
-        factory.setSessionTransacted(false);
         // 关闭Session事务，手动确认与事务冲突
         factory.setSessionTransacted(false);
-        /* 设置消息的签收模式（自己签收）
+        /* 设置消息的签收模式，即消费者收到消息后怎么确认收到
          * AUTO_ACKNOWLEDGE = 1 ：自动确认
          * CLIENT_ACKNOWLEDGE = 2：客户端手动确认
          * DUPS_OK_ACKNOWLEDGE = 3： 自动批量确认
@@ -62,6 +70,11 @@ public class ActiveMqConfig {
         return factory;
     }
 
+    /**
+     * 监听器容器——Topic
+     * @param connectionFactory
+     * @return
+     */
     @Bean
     public JmsListenerContainerFactory<?> jmsListenerTopic(ActiveMQConnectionFactory connectionFactory) {
         DefaultJmsListenerContainerFactory bean = new DefaultJmsListenerContainerFactory();
