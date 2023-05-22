@@ -9,45 +9,16 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMqConfig {
 
-    public static final String TEST_EXCHANGE_NAME        = "test.topic.exchange";
-    public static final String TEST_QUEUE_NAME           = "test.queue";
+
     public static final String TEST_PUSH_QUEUE_NAME      = "test.push.queue";
     public static final String TEST_PULL_QUEUE_NAME      = "test.pull.queue";
-    public static final String TEST_ROUTING_KEY          = "test.#";
 
     //网关限流队列
     public static final String EXCHANGE_GATEWAY_PEAK_CLIPPING = "test.gateway.topic.exchange";
     public static final String QUEUE_GATEWAY_PEAK_CLIPPING = "test.gateway.peak.clipping";
     public static final String ROUTING_KEY_GATEWAY_PEAK_CLIPPING = "test.gateway.peak.clipping.#";
 
-    @Bean("testExchange")
-    public Exchange testExchange() {
-        //durable:是否持久化
-        return ExchangeBuilder
-                .topicExchange(TEST_EXCHANGE_NAME)
-                .durable(true)
-                .build();
-    }
 
-    //队列
-    @Bean("testQueue4RabbitMq")
-    public Queue testQueue4RabbitMq() {
-        return QueueBuilder
-                .durable(TEST_QUEUE_NAME)
-                .build();
-    }
-
-    /**
-     * 绑定队列和交换机
-     */
-    @Bean
-    public Binding bindQueueAndExchange(@Qualifier("testQueue4RabbitMq") Queue queue, @Qualifier("testExchange") Exchange exchange) {
-        return BindingBuilder
-                .bind(queue)
-                .to(exchange)
-                .with(TEST_ROUTING_KEY)
-                .noargs();
-    }
 
 
     /**

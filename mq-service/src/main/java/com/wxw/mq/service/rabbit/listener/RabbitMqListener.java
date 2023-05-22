@@ -1,6 +1,7 @@
 package com.wxw.mq.service.rabbit.listener;
 
 import com.wxw.mq.service.rabbit.config.RabbitMqConfig;
+import com.wxw.mq.service.rabbit.config.TestQueueConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -17,10 +18,10 @@ public class RabbitMqListener {
      * 相当于 PUSH 模式接收消息
      * @param message
      */
-    @RabbitListener(queues = RabbitMqConfig.TEST_QUEUE_NAME)
+    @RabbitListener(queues = TestQueueConfig.TEST_QUEUE_NAME)
     public void listenTestQueue(Message message) {
         String messageString = new String(message.getBody(), StandardCharsets.UTF_8);
-        log.info("消费消息：queue=[{}], message.Body=[{}]", RabbitMqConfig.TEST_QUEUE_NAME, messageString);
+        log.info("消费消息：queue=[{}], message.Body=[{}]", TestQueueConfig.TEST_QUEUE_NAME, messageString);
     }
 
 

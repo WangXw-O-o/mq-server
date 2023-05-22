@@ -7,6 +7,12 @@ package com.wxw.mq.service.rabbit;
 public interface RabbitMqService {
 
     /**
+     * 简单模式和工作队列模式下，直接发送消息到默认的交换机（此处即Spring RabbitTemplate 中声明的默认交换机，也就是RabbitMQ服务的默认交换机）
+     * @param message
+     */
+    void sendMessageToQueue(String message);
+
+    /**
      * 发送消息
      * @param exchange   交换机
      * @param routingKey 路由key

@@ -2,6 +2,7 @@ package com.wxw.mq.web.controller;
 
 import com.wxw.mq.service.rabbit.RabbitMqService;
 import com.wxw.mq.service.rabbit.config.RabbitMqConfig;
+import com.wxw.mq.service.rabbit.config.TestQueueConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +22,7 @@ public class RabbitMqController {
 
     @GetMapping("/send/queue/{message}")
     public String sendToQueue(@PathVariable("message") String message) {
-        rabbitMqService.sendMessage(RabbitMqConfig.TEST_EXCHANGE_NAME, "test.hello", message);
+        rabbitMqService.sendMessage(TestQueueConfig.TEST_EXCHANGE_NAME, "test.hello", message);
         return "send to queue :" ;
     }
 }

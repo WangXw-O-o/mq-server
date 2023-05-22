@@ -4,6 +4,7 @@ import com.rabbitmq.client.*;
 import com.wxw.mq.service.rabbit.RabbitMqService;
 import com.wxw.mq.service.rabbit.config.RabbitMqConfig;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.connection.Connection;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -19,6 +20,11 @@ public class RabbitMqServiceImpl implements RabbitMqService {
 
     @Resource
     private RabbitTemplate rabbitTemplate;
+
+    @Override
+    public void sendMessageToQueue(String message) {
+        rabbitTemplate.send(new Message(message.getBytes(StandardCharsets.UTF_8)));
+    }
 
     @Override
     public void sendMessage(String exchange, String routingKey, Object message) {
